@@ -4,17 +4,95 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1{
+  color:purple;
 }
 
 .product {
   background: white;
   display: flex;
   flex-direction: row;
-  border: 2px solid black;
-  border-radius: 3px;
-  width: 100px;
-  height: 100px;
-  margin: 25px;
+  border: 1px solid purple;
+  width: 92.28%;
+  margin-left: 3.8%;
 }
 
+.checkBox{
+  flex:0.5;
+  margin-top: 5.25%;
+}
 
+input[type=checkbox] {
+  transform: scale(2);
+}
+
+.image{
+  flex:1;
+
+}
+
+.content{
+  flex:2;
+  
+}
+
+#smallti{
+  font-size: 22px;
+  font-weight: bold;
+  color:grey;
+  
+}
+
+.content a{
+  text-decoration: none;
+}
+
+#des{
+  text-align: left;
+  margin:12px;
+  font-size: 18px;
+}
+
+.price{
+  margin-top: 4%;
+  flex:1;
+  font-size: 17px;
+}
+
+.number{
+  flex:1;
+  margin-top: 5.2%;
+}
+
+.title{
+  background-color:purple;
+  display:flex;
+  flex-direction: row;
+  width:92.45%;
+  margin-top:20px;
+  color:white;
+  font-weight: bold;
+}
+
+.t0{
+  flex:0.5;
+}
+
+.t1{
+  flex:1;
+}
+
+.t2{
+  flex:2;
+}
+
+.t3{
+  flex:1;
+}
+
+.t4{
+  flex:1;
+}
