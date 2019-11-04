@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import { Script } from 'vm';
 
@@ -8,6 +8,7 @@ let shoppingCartItems = [
     image: 'https://cdn1.imggmi.com/uploads/2019/10/27/50998b9bd8c946ae4c908270e98d4ede-full.png',
     description: 'A well-designed space suit with all the functions you need for a space travel. Double 11 you get 40% off.',
     price: 1000000,
+    checked: false,
     number: 1,
     link: "https://www.amazon.com/Charades-Unisex-Adults-Astronaut-Costume-White/dp/B00NH534QC/ref=sr_1_13?dchild=1&keywords=spacesuit&psc=1&qid=1572167180&sr=8-13"
   },
@@ -59,14 +60,22 @@ let shoppingCartItems = [
     number: 1,
     link: "https://www.lego.com/en-us/product/central-perk-21319"
   },
-  
+
 ]
 
-function getInfo(data){
-  return(
+// function getInfo(data) {
+//   console.log("get info",data);
+//   return (
+//     <div>
+//       <Product item={data.item} image={data.image} description={data.description} number={data.number} price={data.price} link={data.link} shoppingCartItems={data} />
+//     </div>
+//   );
+// }
+
+function getChecked(data) {
+  return (
     <div>
-      <Product item = {data.item} image = {data.image} description = {data.description} number = {data.number} price = {data.price} link = {data.link} shoppingCartItems={data}/>
-      {/* <Total item = {data.item} number = {data.number} price = {data.price} shoppingCartItems={data}/> */}
+      <Total item={data.item} number={data.number} price={data.price} shoppingCartItems={data} />
     </div>
   );
 }
@@ -74,63 +83,101 @@ function getInfo(data){
 
 
 function App() {
+  const [update, setUpdate] = useState(false);
+  function updateTotal(){
+    setUpdate(!update);
+  }
   return (
     <div className="App">
       <h1>Your Shopping Cart</h1>
-     <SearchForm />
-     <Title />
-     <ShoppingCart />
-     <Total />
+      <SearchForm />
+      <Title />
+      <ShoppingCart setUpdate={updateTotal}/>
+      <TotalCost items={shoppingCartItems} checked={update}/>
     </div>
   );
 }
 
-function Title(){
-  return(
+function Title() {
+  return (
     <div className="title">
-        <p className="t0">Buy?</p>
-        <p className = "t1">Item</p>
-        <p className="t2">Description</p>
-        <p className="t3">Price</p>
-        <p className="t4">Number</p>
+      <p className="t0">Buy?</p>
+      <p className="t1">Item</p>
+      <p className="t2">Description</p>
+      <p className="t3">Price</p>
+      <p className="t4">Number</p>
     </div>
   );
 
 }
 
-function ShoppingCart() {
-  return(
+function ShoppingCart({setUpdate}) {
+  for(let i = 0;i<shoppingCartItems.length;i++){
+    shoppingCartItems[i].setUpdate=setUpdate;
+  }
+  return (
     <div className="cart">
-      {shoppingCartItems.map(getInfo)}
+      {shoppingCartItems.map(Product)}
     </div>
   );
 }
+
+function TotalCost({items}) {
+  let total = 0;
+  console.log(items);
+  for(let i = 0; i < items.length;i++){
+    if(items[i].checked){
+      total+=items[i].price*items[i].number;
+    }
+  }
+  return (
+    <div>
+      <p>Total Cost: {total}</p>
+    </div>
+  );
+}
+
 
 function Product(info) {
-  return(
+  console.log("product",info);
+  
+
+  function updateCheckedState(event) {
+    // setChecked(!checked);
+    info.checked = event.target.checked;
+    info.setUpdate();
+    console.log("info",info.checked);
+  }
+
+  function updateNumber(num){
+    info.number=Number(num.target.value);
+    info.setUpdate();
+  }
+
+  return (
     <div className="product">
       <div className="checkBox">
-        <input type="checkbox" name={info.item} id = {info.item}></input>
+        <input type="checkbox" name={info.item} id={info.item} onChange={updateCheckedState}></input>
       </div>
       <div className="image">
-        <a href={info.link}><img src={info.image} width="180"/></a> 
+        <a href={info.link}><img src={info.image} width="180" alt={info.image} /></a>
       </div>
       <div className="content">
-        <a href={info.link}><p id = "smallti">{info.item}</p></a>
+        <a href={info.link}><p id="smallti">{info.item}</p></a>
         <p id="des">{info.description}</p>
       </div>
       <div className="price">
         <p>{info.price}</p>
       </div>
       <div className="number">
-        <input type = "number" min = {info.number}></input>
+        <input type="number" min={info.number} onChange={updateNumber} value={info.number}></input>
       </div>
     </div>
   )
 }
 
 function SearchForm() {
-  return(
+  return (
     <form>
       <label>
         Search:
@@ -141,18 +188,13 @@ function SearchForm() {
   );
 }
 
-function Total(info){
-  return(
-    // <script>
-    //   let id = t1;
-    //   if(document.getElementById(toString({info.item})).checked = true)){
-
-    //   }
-    // </script>
-    <div>
-    <p>Total Cost: </p>
-    </div>
-  );
+function Total(checkinfo) {
+  let total = 0;
+  // if(checkinfo.item.state.isChecked = true){
+  //   console.log('hi');
+  //   total += checkinfo.price;
+  // }
+  return total;
 }
 
 export default App;
